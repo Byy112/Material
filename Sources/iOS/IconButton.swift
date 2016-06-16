@@ -40,8 +40,8 @@ public class IconButton : MaterialButton {
 	*/
 	public override func prepareView() {
 		super.prepareView()
-		cornerRadiusPreset = .Radius1
-		contentEdgeInsetsPreset = .WideRectangle3
-		pulseAnimation = .Center
+		cornerRadiusPreset = .radius1
+		contentEdgeInsetsPreset = .wideRectangle3
+		pulseAnimation = .center
 	}
 }

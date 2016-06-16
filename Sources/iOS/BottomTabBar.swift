@@ -32,8 +32,8 @@ import UIKit
 
 public extension UITabBarItem {
 	/// Sets the color of the title color for a state.
-	public func setTitleColor(color: UIColor, forState state: UIControlState) {
-		setTitleTextAttributes([NSForegroundColorAttributeName: color], forState: state)
+	public func setTitleColor(_ color: UIColor, forState state: UIControlState) {
+		setTitleTextAttributes([NSForegroundColorAttributeName: color], for: state)
 	}
 }
 
@@ -117,7 +117,7 @@ public class BottomTabBar : UITabBar {
 	/// A property that accesses the backing layer's shadowColor.
 	@IBInspectable public var shadowColor: UIColor? {
 		didSet {
-			layer.shadowColor = shadowColor?.CGColor
+			layer.shadowColor = shadowColor?.cgColor
 		}
 	}
 	
@@ -152,7 +152,7 @@ public class BottomTabBar : UITabBar {
 	}
 	
 	/// A preset property to set the borderWidth.
-	public var borderWidthPreset: MaterialBorder = .None {
+	public var borderWidthPreset: MaterialBorder = .none {
 		didSet {
 			borderWidth = MaterialBorderToValue(borderWidthPreset)
 		}
@@ -171,10 +171,10 @@ public class BottomTabBar : UITabBar {
 	/// A property that accesses the layer.borderColor property.
 	@IBInspectable public var borderColor: UIColor? {
 		get {
-			return nil == layer.borderColor ? nil : UIColor(CGColor: layer.borderColor!)
+			return nil == layer.borderColor ? nil : UIColor(cgColor: layer.borderColor!)
 		}
 		set(value) {
-			layer.borderColor = value?.CGColor
+			layer.borderColor = value?.cgColor
 		}
 	}
 	
@@ -200,7 +200,7 @@ public class BottomTabBar : UITabBar {
 	
 	/// A convenience initializer.
 	public convenience init() {
-		self.init(frame: CGRectZero)
+		self.init(frame: CGRect.zero)
 	}
 	
 	public override func layoutSubviews() {
@@ -247,10 +247,10 @@ public class BottomTabBar : UITabBar {
 	when subclassing.
 	*/
 	public func prepareView() {
-		depth = .Depth1
+		depth = .depth1
 		contentScaleFactor = MaterialDevice.scale
 		backgroundColor = MaterialColor.white
-		let image: UIImage? = UIImage.imageWithColor(MaterialColor.clear, size: CGSizeMake(1, 1))
+		let image: UIImage? = UIImage.imageWithColor(MaterialColor.clear, size: CGSize(width: 1, height: 1))
 		shadowImage = image
 		backgroundImage = image
 	}
@@ -277,7 +277,7 @@ public extension UITabBar {
 	public internal(set) var item: MaterialAssociatedObjectTabBar {
 		get {
 			return MaterialAssociatedObject(self, key: &MaterialAssociatedObjectTabBarKey) {
-				return MaterialAssociatedObjectTabBar(depth: .None)
+				return MaterialAssociatedObjectTabBar(depth: .none)
 			}
 		}
 		set(value) {

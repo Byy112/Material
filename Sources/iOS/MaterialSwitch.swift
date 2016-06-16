@@ -31,19 +31,19 @@
 import UIKit
 
 public enum MaterialSwitchStyle {
-	case LightContent
-	case Default
+	case lightContent
+	case `default`
 }
 
 public enum MaterialSwitchState {
-	case On
-	case Off
+	case on
+	case off
 }
 
 public enum MaterialSwitchSize {
-	case Small
-	case Default
-	case Large
+	case small
+	case `default`
+	case large
 }
 
 public protocol MaterialSwitchDelegate {
@@ -51,13 +51,13 @@ public protocol MaterialSwitchDelegate {
 	A MaterialSwitch delegate method for state changes.
 	- Parameter control: MaterialSwitch control.
 	*/
-	func materialSwitchStateChanged(control: MaterialSwitch)
+	func materialSwitchStateChanged(_ control: MaterialSwitch)
 }
 
 @IBDesignable
 public class MaterialSwitch : UIControl {
 	/// An internal reference to the switchState public property.
-	private var internalSwitchState: MaterialSwitchState = .Off
+	private var internalSwitchState: MaterialSwitchState = .off
 	
 	/// Track thickness.
 	private var trackThickness: CGFloat = 0
@@ -194,7 +194,7 @@ public class MaterialSwitch : UIControl {
 		}
 	}
 	
-	@IBInspectable public override var enabled: Bool {
+	@IBInspectable public override var isEnabled: Bool {
 		didSet {
 			styleForState(internalSwitchState)
 		}
@@ -203,7 +203,7 @@ public class MaterialSwitch : UIControl {
 	/// A boolean indicating if the switch is on or not.
 	@IBInspectable public var on: Bool {
 		get {
-			return .On == internalSwitchState
+			return .on == internalSwitchState
 		}
 		set(value) {
 			setOn(value, animated: true)
@@ -223,10 +223,10 @@ public class MaterialSwitch : UIControl {
 	}
 	
 	/// MaterialSwitch style.
-	public var switchStyle: MaterialSwitchStyle = .Default {
+	public var switchStyle: MaterialSwitchStyle = .default {
 		didSet {
 			switch switchStyle {
-			case .LightContent:
+			case .lightContent:
 				buttonOnColor = MaterialColor.blue.darken2
 				trackOnColor = MaterialColor.blue.lighten3
 				buttonOffColor = MaterialColor.blueGrey.lighten4
@@ -235,35 +235,35 @@ public class MaterialSwitch : UIControl {
 				trackOnDisabledColor = MaterialColor.grey.lighten3
 				buttonOffDisabledColor = MaterialColor.grey.lighten2
 				trackOffDisabledColor = MaterialColor.grey.lighten3
-			case .Default:
+			case .default:
 				buttonOnColor = MaterialColor.blue.lighten1
-				trackOnColor = MaterialColor.blue.lighten2.colorWithAlphaComponent(0.5)
+				trackOnColor = MaterialColor.blue.lighten2.withAlphaComponent(0.5)
 				buttonOffColor = MaterialColor.blueGrey.lighten3
-				trackOffColor = MaterialColor.blueGrey.lighten4.colorWithAlphaComponent(0.5)
+				trackOffColor = MaterialColor.blueGrey.lighten4.withAlphaComponent(0.5)
 				buttonOnDisabledColor = MaterialColor.grey.darken3
-				trackOnDisabledColor = MaterialColor.grey.lighten1.colorWithAlphaComponent(0.2)
+				trackOnDisabledColor = MaterialColor.grey.lighten1.withAlphaComponent(0.2)
 				buttonOffDisabledColor = MaterialColor.grey.darken3
-				trackOffDisabledColor = MaterialColor.grey.lighten1.colorWithAlphaComponent(0.2)
+				trackOffDisabledColor = MaterialColor.grey.lighten1.withAlphaComponent(0.2)
 			}
 		}
 	}
 	
 	/// MaterialSwitch size.
-	public var switchSize: MaterialSwitchSize = .Default {
+	public var switchSize: MaterialSwitchSize = .default {
 		didSet {
 			switch switchSize {
-			case .Small:
+			case .small:
 				trackThickness = 13
 				buttonDiameter = 18
-				frame = CGRectMake(0, 0, 30, 25)
-			case .Default:
+				frame = CGRect(x: 0, y: 0, width: 30, height: 25)
+			case .default:
 				trackThickness = 17
 				buttonDiameter = 24
-				frame = CGRectMake(0, 0, 40, 30)
-			case .Large:
+				frame = CGRect(x: 0, y: 0, width: 40, height: 30)
+			case .large:
 				trackThickness = 23
 				buttonDiameter = 31
-				frame = CGRectMake(0, 0, 50, 40)
+				frame = CGRect(x: 0, y: 0, width: 50, height: 40)
 			}
 		}
 	}
@@ -290,9 +290,9 @@ public class MaterialSwitch : UIControl {
 		super.init(coder: aDecoder)
 		prepareTrack()
 		prepareButton()
-		prepareSwitchSize(.Default)
-		prepareSwitchStyle(.LightContent)
-		prepareSwitchState(.Off)
+		prepareSwitchSize(.default)
+		prepareSwitchStyle(.lightContent)
+		prepareSwitchState(.off)
 	}
 	
 	/**
@@ -308,9 +308,9 @@ public class MaterialSwitch : UIControl {
 		super.init(frame: frame)
 		prepareTrack()
 		prepareButton()
-		prepareSwitchSize(.Default)
-		prepareSwitchStyle(.LightContent)
-		prepareSwitchState(.Off)
+		prepareSwitchSize(.default)
+		prepareSwitchStyle(.lightContent)
+		prepareSwitchState(.off)
 	}
 	
 	/**
@@ -319,10 +319,10 @@ public class MaterialSwitch : UIControl {
 	- Parameter style: A MaterialSwitchStyle value.
 	- Parameter size: A MaterialSwitchSize value.
 	*/
-	public init(state: MaterialSwitchState = .Off, style: MaterialSwitchStyle = .Default, size: MaterialSwitchSize = .Default) {
+	public init(state: MaterialSwitchState = .off, style: MaterialSwitchStyle = .default, size: MaterialSwitchSize = .default) {
 		trackLayer = CAShapeLayer()
 		button = FabButton()
-		super.init(frame: CGRectNull)
+		super.init(frame: CGRect.null)
 		prepareTrack()
 		prepareButton()
 		prepareSwitchSize(size)
@@ -330,19 +330,19 @@ public class MaterialSwitch : UIControl {
 		prepareSwitchState(state)
 	}
 	
-	public override func willMoveToSuperview(newSuperview: UIView?) {
-		super.willMoveToSuperview(newSuperview)
+	public override func willMove(toSuperview newSuperview: UIView?) {
+		super.willMove(toSuperview: newSuperview)
 		styleForState(internalSwitchState)
 	}
 	
 	public override func intrinsicContentSize() -> CGSize {
 		switch switchSize {
-		case .Small:
-			return CGSizeMake(30, 25)
-		case .Default:
-			return CGSizeMake(40, 30)
-		case .Large:
-			return CGSizeMake(50, 40)
+		case .small:
+			return CGSize(width: 30, height: 25)
+		case .default:
+			return CGSize(width: 40, height: 30)
+		case .large:
+			return CGSize(width: 50, height: 40)
 		}
 	}
 	
@@ -350,8 +350,8 @@ public class MaterialSwitch : UIControl {
 	Toggle the MaterialSwitch state, if On will be Off, and if Off will be On.
 	- Parameter completion: An Optional completion block.
 	*/
-	public func toggle(completion: ((control: MaterialSwitch) -> Void)? = nil) {
-		setSwitchState(.On == internalSwitchState ? .Off : .On, animated: true, completion: completion)
+	public func toggle(_ completion: ((control: MaterialSwitch) -> Void)? = nil) {
+		setSwitchState(.on == internalSwitchState ? .off : .on, animated: true, completion: completion)
 	}
 	
 	/**
@@ -359,8 +359,8 @@ public class MaterialSwitch : UIControl {
 	- Parameter on: A bool of whether the switch should be in the on state or not.
 	- Parameter animated: A Boolean indicating to set the animation or not.
 	*/
-	public func setOn(on: Bool, animated: Bool, completion: ((control: MaterialSwitch) -> Void)? = nil) {
-		setSwitchState(on ? .On : .Off, animated: animated, completion: completion)
+	public func setOn(_ on: Bool, animated: Bool, completion: ((control: MaterialSwitch) -> Void)? = nil) {
+		setSwitchState(on ? .on : .off, animated: animated, completion: completion)
 	}
 	
 	/**
@@ -369,21 +369,21 @@ public class MaterialSwitch : UIControl {
 	- Parameter animated: A Boolean indicating to set the animation or not.
 	- Parameter completion: An Optional completion block.
 	*/
-	public func setSwitchState(state: MaterialSwitchState, animated: Bool = true, completion: ((control: MaterialSwitch) -> Void)? = nil) {
-		if enabled && internalSwitchState != state {
+	public func setSwitchState(_ state: MaterialSwitchState, animated: Bool = true, completion: ((control: MaterialSwitch) -> Void)? = nil) {
+		if isEnabled && internalSwitchState != state {
 			internalSwitchState = state
 			if animated {
 				animateToState(state) { [weak self] _ in
 					if let s: MaterialSwitch = self {
-						s.sendActionsForControlEvents(.ValueChanged)
+						s.sendActions(for: .valueChanged)
 						completion?(control: s)
 						s.delegate?.materialSwitchStateChanged(s)
 					}
 				}
 			} else {
-				button.x = .On == state ? self.onPosition : self.offPosition
+				button.x = .on == state ? self.onPosition : self.offPosition
 				styleForState(state)
-				sendActionsForControlEvents(.ValueChanged)
+				sendActions(for: .valueChanged)
 				completion?(control: self)
 				delegate?.materialSwitchStateChanged(self)
 			}
@@ -396,10 +396,10 @@ public class MaterialSwitch : UIControl {
 	- Parameter event: A UIEvent.
 	*/
 	@objc(handleTouchUpOutsideOrCanceled:event:)
-	internal func handleTouchUpOutsideOrCanceled(sender: FabButton, event: UIEvent) {
-		if let v: UITouch = event.touchesForView(sender)?.first {
-			let q: CGFloat = sender.x + v.locationInView(sender).x - v.previousLocationInView(sender).x
-			setSwitchState(q > (width - button.width) / 2 ? .On : .Off, animated: true)
+	internal func handleTouchUpOutsideOrCanceled(_ sender: FabButton, event: UIEvent) {
+		if let v: UITouch = event.touches(for: sender)?.first {
+			let q: CGFloat = sender.x + v.location(in: sender).x - v.previousLocation(in: sender).x
+			setSwitchState(q > (width - button.width) / 2 ? .on : .off, animated: true)
 		}
 	}
 	
@@ -414,18 +414,18 @@ public class MaterialSwitch : UIControl {
 	- Parameter event: A UIEvent.
 	*/
 	@objc(handleTouchDragInside:event:)
-	internal func handleTouchDragInside(sender: FabButton, event: UIEvent) {
-		if let v = event.touchesForView(sender)?.first {
-			let q: CGFloat = max(min(sender.x + v.locationInView(sender).x - v.previousLocationInView(sender).x, onPosition), offPosition)
+	internal func handleTouchDragInside(_ sender: FabButton, event: UIEvent) {
+		if let v = event.touches(for: sender)?.first {
+			let q: CGFloat = max(min(sender.x + v.location(in: sender).x - v.previousLocation(in: sender).x, onPosition), offPosition)
 			if q != sender.x {
 				sender.x = q
 			}
 		}
 	}
 	
-	public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-		if true == CGRectContainsPoint(trackLayer.frame, layer.convertPoint(touches.first!.locationInView(self), fromLayer: layer)) {
-			setOn(.On != internalSwitchState, animated: true)
+	public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		if true == trackLayer.frame.contains(layer.convert(touches.first!.location(in: self), from: layer)) {
+			setOn(.on != internalSwitchState, animated: true)
 		}
 	}
 	
@@ -436,11 +436,11 @@ public class MaterialSwitch : UIControl {
 	
 	/// Prepares the button.
 	private func prepareButton() {
-		button.pulseAnimation = .None
-		button.addTarget(self, action: #selector(handleTouchUpInside), forControlEvents: .TouchUpInside)
-		button.addTarget(self, action: #selector(handleTouchDragInside), forControlEvents: .TouchDragInside)
-		button.addTarget(self, action: #selector(handleTouchUpOutsideOrCanceled), forControlEvents: .TouchCancel)
-		button.addTarget(self, action: #selector(handleTouchUpOutsideOrCanceled), forControlEvents: .TouchUpOutside)
+		button.pulseAnimation = .none
+		button.addTarget(self, action: #selector(handleTouchUpInside), for: .touchUpInside)
+		button.addTarget(self, action: #selector(handleTouchDragInside), for: .touchDragInside)
+		button.addTarget(self, action: #selector(handleTouchUpOutsideOrCanceled), for: .touchCancel)
+		button.addTarget(self, action: #selector(handleTouchUpOutsideOrCanceled), for: .touchUpOutside)
 		addSubview(button)
 	}
 	
@@ -449,7 +449,7 @@ public class MaterialSwitch : UIControl {
 	init to set the state value and have an effect.
 	- Parameter state: The MaterialSwitchState to set.
 	*/
-	private func prepareSwitchState(state: MaterialSwitchState) {
+	private func prepareSwitchState(_ state: MaterialSwitchState) {
 		setSwitchState(state, animated: false)
 	}
 	
@@ -458,7 +458,7 @@ public class MaterialSwitch : UIControl {
 	init to set the state value and have an effect.
 	- Parameter style: The MaterialSwitchStyle to set.
 	*/
-	private func prepareSwitchStyle(style: MaterialSwitchStyle) {
+	private func prepareSwitchStyle(_ style: MaterialSwitchStyle) {
 		switchStyle = style
 	}
 	
@@ -467,7 +467,7 @@ public class MaterialSwitch : UIControl {
 	init to set the size value and have an effect.
 	- Parameter size: The MaterialSwitchSize to set.
 	*/
-	private func prepareSwitchSize(size: MaterialSwitchSize) {
+	private func prepareSwitchSize(_ size: MaterialSwitchSize) {
 		switchSize = size
 	}
 	
@@ -475,8 +475,8 @@ public class MaterialSwitch : UIControl {
 	Updates the style based on the state.
 	- Parameter state: The MaterialSwitchState to set the style to.
 	*/
-	private func styleForState(state: MaterialSwitchState) {
-		if enabled {
+	private func styleForState(_ state: MaterialSwitchState) {
+		if isEnabled {
 			updateColorForState(state)
 		} else {
 			updateColorForDisabledState(state)
@@ -487,13 +487,13 @@ public class MaterialSwitch : UIControl {
 	Updates the coloring for the enabled state.
 	- Parameter state: MaterialSwitchState.
 	*/
-	private func updateColorForState(state: MaterialSwitchState) {
-		if .On == state {
+	private func updateColorForState(_ state: MaterialSwitchState) {
+		if .on == state {
 			button.backgroundColor = buttonOnColor
-			trackLayer.backgroundColor = trackOnColor.CGColor
+			trackLayer.backgroundColor = trackOnColor.cgColor
 		} else {
 			button.backgroundColor = buttonOffColor
-			trackLayer.backgroundColor = trackOffColor.CGColor
+			trackLayer.backgroundColor = trackOffColor.cgColor
 		}
 	}
 	
@@ -501,13 +501,13 @@ public class MaterialSwitch : UIControl {
 	Updates the coloring for the disabled state.
 	- Parameter state: MaterialSwitchState.
 	*/
-	private func updateColorForDisabledState(state: MaterialSwitchState) {
-		if .On == state {
+	private func updateColorForDisabledState(_ state: MaterialSwitchState) {
+		if .on == state {
 			button.backgroundColor = buttonOnDisabledColor
-			trackLayer.backgroundColor = trackOnDisabledColor.CGColor
+			trackLayer.backgroundColor = trackOnDisabledColor.cgColor
 		} else {
 			button.backgroundColor = buttonOffDisabledColor
-			trackLayer.backgroundColor = trackOffDisabledColor.CGColor
+			trackLayer.backgroundColor = trackOffDisabledColor.cgColor
 		}
 	}
 	
@@ -515,24 +515,24 @@ public class MaterialSwitch : UIControl {
 	private func layoutSwitch() {
 		var w: CGFloat = 0
 		switch switchSize {
-		case .Small:
+		case .small:
 			w = 30
-		case .Default:
+		case .default:
 			w = 40
-		case .Large:
+		case .large:
 			w = 50
 		}
 		
 		let px: CGFloat = (width - w) / 2
 		
-		trackLayer.frame = CGRectMake(px, (height - trackThickness) / 2, w, trackThickness)
+		trackLayer.frame = CGRect(x: px, y: (height - trackThickness) / 2, width: w, height: trackThickness)
 		trackLayer.cornerRadius = min(trackLayer.frame.height, trackLayer.frame.width) / 2
 		
-		button.frame = CGRectMake(px, (height - buttonDiameter) / 2, buttonDiameter, buttonDiameter)
+		button.frame = CGRect(x: px, y: (height - buttonDiameter) / 2, width: buttonDiameter, height: buttonDiameter)
 		onPosition = width - px - buttonDiameter
 		offPosition = px
 		
-		if .On == internalSwitchState {
+		if .on == internalSwitchState {
 			button.x = onPosition
 		}
 	}
@@ -542,25 +542,25 @@ public class MaterialSwitch : UIControl {
 	- Parameter state: The MaterialSwitchState to set.
 	- Parameter completion: An Optional completion block.
 	*/
-	private func animateToState(state: MaterialSwitchState, completion: ((control: MaterialSwitch) -> Void)? = nil) {
-		userInteractionEnabled = false
-		UIView.animateWithDuration(0.15,
+	private func animateToState(_ state: MaterialSwitchState, completion: ((control: MaterialSwitch) -> Void)? = nil) {
+		isUserInteractionEnabled = false
+		UIView.animate(withDuration: 0.15,
 			delay: 0.05,
-			options: .CurveEaseInOut,
+			options: UIViewAnimationOptions(),
 			animations: { [weak self] in
 				if let s: MaterialSwitch = self {
-					s.button.x = .On == state ? s.onPosition + s.bounceOffset : s.offPosition - s.bounceOffset
+					s.button.x = .on == state ? s.onPosition + s.bounceOffset : s.offPosition - s.bounceOffset
 					s.styleForState(state)
 				}
 			}) { [weak self] _ in
-				UIView.animateWithDuration(0.15,
+				UIView.animate(withDuration: 0.15,
 					animations: { [weak self] in
 						if let s: MaterialSwitch = self {
-							s.button.x = .On == state ? s.onPosition : s.offPosition
+							s.button.x = .on == state ? s.onPosition : s.offPosition
 						}
 					}) { [weak self] _ in
 						if let s: MaterialSwitch = self {
-							s.userInteractionEnabled = true
+							s.isUserInteractionEnabled = true
 							completion?(control: s)
 						}
 					}

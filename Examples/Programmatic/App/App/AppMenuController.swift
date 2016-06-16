@@ -38,7 +38,7 @@ import Material
 
 class AppMenuController: MenuController {
 	/// MenuView diameter.
-	private let baseSize: CGSize = CGSizeMake(56, 56)
+	private let baseSize: CGSize = CGSize(width: 56, height: 56)
 	
     /// MenuView bottom inset.
     private let menuViewBottomInset: CGFloat = 65
@@ -54,18 +54,18 @@ class AppMenuController: MenuController {
 		prepareMenuView()
 	}
 	
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         closeMenu()
     }
     
-	override func openMenu(completion: (() -> Void)? = nil) {
+	override func openMenu(_ completion: (() -> Void)? = nil) {
 		super.openMenu(completion)
 		navigationDrawerController?.enabled = false
 		(menuView.menu.views?.first as? MaterialButton)?.animate(MaterialAnimation.rotate(angle: 45))
 	}
 	
-	override func closeMenu(completion: (() -> Void)? = nil) {
+	override func closeMenu(_ completion: (() -> Void)? = nil) {
 		super.closeMenu(completion)
 		navigationDrawerController?.enabled = true
 		(menuView.menu.views?.first as? MaterialButton)?.animate(MaterialAnimation.rotate(angle: 0))

@@ -809,14 +809,18 @@
 			attributes = {
 				LastSwiftMigration = 0710;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "CosmicMind, Inc.";
 				TargetAttributes = {
 					963832351B88DFD80015F710 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 9Z76XCNLGL;
+						DevelopmentTeamName = "CosmicMind Inc.";
+						LastSwiftMigration = 0800;
 					};
 					963832401B88DFD80015F710 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0800;
 					};
 					966016121CB2ED6C00AAB661 = {
 						CreatedOnToolsVersion = 7.3;
@@ -1127,6 +1131,7 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1148,6 +1153,8 @@
 				PRODUCT_NAME = Material;
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1168,6 +1175,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "io.cosmicmind.Material-iOS-Tests";
 				PRODUCT_NAME = Material;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1183,6 +1191,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.cosmicmind.Material-iOS-Tests";
 				PRODUCT_NAME = Material;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1229,6 +1239,7 @@
 				PRODUCT_NAME = Material;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};

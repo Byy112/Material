@@ -40,9 +40,9 @@ public class RaisedButton : MaterialButton {
 	*/
 	public override func prepareView() {
 		super.prepareView()
-		depth = .Depth1
-		cornerRadiusPreset = .Radius1
-		contentEdgeInsetsPreset = .WideRectangle3
+		depth = .depth1
+		cornerRadiusPreset = .radius1
+		contentEdgeInsetsPreset = .wideRectangle3
 		backgroundColor = MaterialColor.white
 	}
 }

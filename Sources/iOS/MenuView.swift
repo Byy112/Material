@@ -33,7 +33,7 @@ import UIKit
 @objc(MenuViewDelegate)
 public protocol MenuViewDelegate : MaterialDelegate {
     /// Gets called when the user taps outside menu buttons.
-    optional func menuViewDidTapOutside(menuView: MenuView)
+    @objc optional func menuViewDidTapOutside(_ menuView: MenuView)
     
 }
 
@@ -50,7 +50,7 @@ public class MenuView : MaterialPulseView {
 	*/
 	public override func prepareView() {
 		super.prepareView()
-		pulseAnimation = .None
+		pulseAnimation = .none
 		clipsToBounds = false
 		backgroundColor = nil
 	}
@@ -60,12 +60,12 @@ public class MenuView : MaterialPulseView {
 	- Parameter completion: An Optional callback that is executed when
 	all menu items have been opened.
 	*/
-	public func open(completion: (() -> Void)? = nil) {
-		if true == menu.views?.first?.userInteractionEnabled {
-			menu.views?.first?.userInteractionEnabled = false
+	public func open(_ completion: (() -> Void)? = nil) {
+		if true == menu.views?.first?.isUserInteractionEnabled {
+			menu.views?.first?.isUserInteractionEnabled = false
 			menu.open { [weak self] (v: UIView) in
 				if self?.menu.views?.last == v {
-					self?.menu.views?.first?.userInteractionEnabled = true
+					self?.menu.views?.first?.isUserInteractionEnabled = true
 					completion?()
 				}
 			}
@@ -77,31 +77,31 @@ public class MenuView : MaterialPulseView {
 	- Parameter completion: An Optional callback that is executed when
 	all menu items have been closed.
 	*/
-	public func close(completion: (() -> Void)? = nil) {
-		if true == menu.views?.first?.userInteractionEnabled {
-			menu.views?.first?.userInteractionEnabled = false
+	public func close(_ completion: (() -> Void)? = nil) {
+		if true == menu.views?.first?.isUserInteractionEnabled {
+			menu.views?.first?.isUserInteractionEnabled = false
 			menu.close { [weak self] (v: UIView) in
 				if self?.menu.views?.last == v {
-					self?.menu.views?.first?.userInteractionEnabled = true
+					self?.menu.views?.first?.isUserInteractionEnabled = true
 					completion?()
 				}
 			}
 		}
 	}
 	
-	public override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+	public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 		/**
 		Since the subviews will be outside the bounds of this view,
 		we need to look at the subviews to see if we have a hit.
 		*/
-        guard !hidden else {
+        guard !isHidden else {
             return nil
         }
 		
 		for v in subviews {
-			let p: CGPoint = v.convertPoint(point, fromView: self)
-			if CGRectContainsPoint(v.bounds, p) {
-				return v.hitTest(p, withEvent: event)
+			let p: CGPoint = v.convert(point, from: self)
+			if v.bounds.contains(p) {
+				return v.hitTest(p, with: event)
 			}
 		}
 		
@@ -109,6 +109,6 @@ public class MenuView : MaterialPulseView {
 			(delegate as? MenuViewDelegate)?.menuViewDidTapOutside?(self)
 		}
 		
-		return super.hitTest(point, withEvent: event)
+		return super.hitTest(point, with: event)
 	}
 }

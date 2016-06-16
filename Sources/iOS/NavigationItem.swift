@@ -68,14 +68,14 @@ public class MaterialAssociatedObjectNavigationItem {
 	private func prepareTitleLabel() {
 		titleLabel = UILabel()
 		titleLabel.font = RobotoFont.mediumWithSize(17)
-		titleLabel.textAlignment = .Center
+		titleLabel.textAlignment = .center
 	}
 	
 	/// Prepares the detailLabel.
 	private func prepareDetailLabel() {
 		detailLabel = UILabel()
 		detailLabel.font = RobotoFont.regularWithSize(12)
-		detailLabel.textAlignment = .Center
+		detailLabel.textAlignment = .center
 	}
 }
 

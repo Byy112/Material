@@ -102,7 +102,7 @@ public class MaterialCollectionView : UICollectionView {
 	}
 	
 	/// A preset wrapper around spacing.
-	public var spacingPreset: MaterialSpacing = .None {
+	public var spacingPreset: MaterialSpacing = .none {
 		didSet {
 			spacing = MaterialSpacingToValue(spacingPreset)
 		}
@@ -147,7 +147,7 @@ public class MaterialCollectionView : UICollectionView {
 	
 	/// A convenience initializer that initializes the object.
 	public convenience init() {
-		self.init(frame: CGRectZero)
+		self.init(frame: CGRect.zero)
 	}
 	
 	/**

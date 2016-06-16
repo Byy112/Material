@@ -43,18 +43,18 @@ class AppSearchBarController: SearchBarController {
 		prepareSearchBar()
 	}
 	
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		statusBarStyle = .Default
+		statusBarStyle = .default
 		navigationDrawerController?.enabled = false
 	}
 	
-	override func viewDidAppear(animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		searchBar.textField.becomeFirstResponder()
 	}
 	
-	override func viewWillDisappear(animated: Bool) {
+	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		searchBar.textField.resignFirstResponder()
 		navigationDrawerController?.enabled = true
@@ -63,7 +63,7 @@ class AppSearchBarController: SearchBarController {
 	/// Toggle SideSearchViewController left UIViewController.
 	internal func handleBackButton() {
 		searchBar.textField.resignFirstResponder()
-		dismissViewControllerAnimated(true, completion: nil)
+		dismiss(animated: true, completion: nil)
 	}
 	
 	/// Prepares view.
@@ -80,17 +80,17 @@ class AppSearchBarController: SearchBarController {
 		let backButton: IconButton = IconButton()
 		backButton.pulseColor = MaterialColor.grey.base
 		backButton.tintColor = MaterialColor.grey.darken4
-		backButton.setImage(image, forState: .Normal)
-		backButton.setImage(image, forState: .Highlighted)
-		backButton.addTarget(self, action: #selector(handleBackButton), forControlEvents: .TouchUpInside)
+		backButton.setImage(image, for: .selected)
+		backButton.setImage(image, for: .highlighted)
+		backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
 		
 		// More button.
 		image = MaterialIcon.cm.moreHorizontal
 		let moreButton: IconButton = IconButton()
 		moreButton.pulseColor = MaterialColor.grey.base
 		moreButton.tintColor = MaterialColor.grey.darken4
-		moreButton.setImage(image, forState: .Normal)
-		moreButton.setImage(image, forState: .Highlighted)
+		moreButton.setImage(image, for: .selected)
+		moreButton.setImage(image, for: .highlighted)
 		
 		searchBar.textField.delegate = self
 		searchBar.leftControls = [backButton]
@@ -99,11 +99,11 @@ class AppSearchBarController: SearchBarController {
 }
 
 extension AppSearchBarController: TextFieldDelegate {
-	func textFieldDidBeginEditing(textField: UITextField) {
+	func textFieldDidBeginEditing(_ textField: UITextField) {
 //		print("Begin searching....")
 	}
 	
-	func textFieldDidEndEditing(textField: UITextField) {
+	func textFieldDidEndEditing(_ textField: UITextField) {
 //		print("End searching....")
 	}
 }

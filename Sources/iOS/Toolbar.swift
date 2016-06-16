@@ -123,7 +123,7 @@ public class Toolbar : BarView {
 		titleLabel = UILabel()
 		titleLabel.contentScaleFactor = MaterialDevice.scale
 		titleLabel.font = RobotoFont.mediumWithSize(17)
-		titleLabel.textAlignment = .Left
+		titleLabel.textAlignment = .left
 		contentView.addSubview(titleLabel)
 	}
 	
@@ -132,7 +132,7 @@ public class Toolbar : BarView {
 		detailLabel = UILabel()
 		detailLabel.contentScaleFactor = MaterialDevice.scale
 		detailLabel.font = RobotoFont.regularWithSize(12)
-		detailLabel.textAlignment = .Left
+		detailLabel.textAlignment = .left
 		contentView.addSubview(detailLabel)
 	}
 }

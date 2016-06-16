@@ -48,10 +48,10 @@ public class BarController : UIViewController {
 	*/
 	@IBInspectable public var userInteractionEnabled: Bool {
 		get {
-			return rootViewController.view.userInteractionEnabled
+			return rootViewController.view.isUserInteractionEnabled
 		}
 		set(value) {
-			rootViewController.view.userInteractionEnabled = value
+			rootViewController.view.isUserInteractionEnabled = value
 		}
 	}
 	
@@ -77,7 +77,7 @@ public class BarController : UIViewController {
 	- Parameter nibNameOrNil: An Optional String for the nib.
 	- Parameter bundle: An Optional NSBundle where the nib is located.
 	*/
-	public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+	public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 		prepareView()
 	}
@@ -108,23 +108,23 @@ public class BarController : UIViewController {
 	the transition animation from the active rootViewController
 	to the toViewController has completed.
 	*/
-	public func transitionFromRootViewController(toViewController: UIViewController, duration: NSTimeInterval = 0.5, options: UIViewAnimationOptions = [], animations: (() -> Void)? = nil, completion: ((Bool) -> Void)? = nil) {
-		rootViewController.willMoveToParentViewController(nil)
+	public func transitionFromRootViewController(_ toViewController: UIViewController, duration: TimeInterval = 0.5, options: UIViewAnimationOptions = [], animations: (() -> Void)? = nil, completion: ((Bool) -> Void)? = nil) {
+		rootViewController.willMove(toParentViewController: nil)
 		addChildViewController(toViewController)
 		toViewController.view.frame = rootViewController.view.frame
-		transitionFromViewController(rootViewController,
-			toViewController: toViewController,
+		transition(from: rootViewController,
+			to: toViewController,
 			duration: duration,
 			options: options,
 			animations: animations,
 			completion: { [weak self] (result: Bool) in
 				if let s: BarController = self {
-					toViewController.didMoveToParentViewController(s)
+					toViewController.didMove(toParentViewController: s)
 					s.rootViewController.removeFromParentViewController()
 					s.rootViewController = toViewController
 					s.rootViewController.view.clipsToBounds = true
-					s.rootViewController.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-					s.view.sendSubviewToBack(s.rootViewController.view)
+					s.rootViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+					s.view.sendSubview(toBack: s.rootViewController.view)
 					completion?(result)
 				}
 			})
@@ -156,14 +156,14 @@ public class BarController : UIViewController {
 	- Parameter container: A UIView that is the parent of the
 	passed in controller view within the view hierarchy.
 	*/
-	private func prepareViewControllerWithinContainer(viewController: UIViewController?, container: UIView) {
+	private func prepareViewControllerWithinContainer(_ viewController: UIViewController?, container: UIView) {
 		if let v: UIViewController = viewController {
 			addChildViewController(v)
-			v.didMoveToParentViewController(self)
+			v.didMove(toParentViewController: self)
 			v.view.clipsToBounds = true
-			v.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+			v.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 			container.addSubview(v.view)
-			container.sendSubviewToBack(v.view)
+			container.sendSubview(toBack: v.view)
 		}
 	}
 }

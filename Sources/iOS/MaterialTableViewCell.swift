@@ -55,9 +55,9 @@ public class MaterialTableViewCell : UITableViewCell {
 	@IBInspectable public var pulseColor: UIColor = MaterialColor.grey.base
 	
 	/// The type of PulseAnimation.
-	public var pulseAnimation: PulseAnimation = .AtPointWithBacking {
+	public var pulseAnimation: PulseAnimation = .atPointWithBacking {
 		didSet {
-			visualLayer.masksToBounds = .CenterRadialBeyondBounds != pulseAnimation
+			visualLayer.masksToBounds = .centerRadialBeyondBounds != pulseAnimation
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class MaterialTableViewCell : UITableViewCell {
 	/// A property that accesses the backing layer's backgroundColor.
 	@IBInspectable public override var backgroundColor: UIColor? {
 		didSet {
-			layer.backgroundColor = backgroundColor?.CGColor
+			layer.backgroundColor = backgroundColor?.cgColor
 		}
 	}
 	
@@ -136,7 +136,7 @@ public class MaterialTableViewCell : UITableViewCell {
 	/// A property that accesses the backing layer's shadowColor.
 	@IBInspectable public var shadowColor: UIColor? {
 		didSet {
-			layer.shadowColor = shadowColor?.CGColor
+			layer.shadowColor = shadowColor?.cgColor
 		}
 	}
 	
@@ -194,7 +194,7 @@ public class MaterialTableViewCell : UITableViewCell {
 	for the backing layer. This is the preferred method of setting depth
 	in order to maintain consitency across UI objects.
 	*/
-	public var depth: MaterialDepth = .None {
+	public var depth: MaterialDepth = .none {
 		didSet {
 			let value: MaterialDepthType = MaterialDepthToValue(depth)
 			shadowOffset = value.offset
@@ -209,7 +209,7 @@ public class MaterialTableViewCell : UITableViewCell {
 	property has a value of .Circle when the cornerRadius is set, it will
 	become .None, as it no longer maintains its circle shape.
 	*/
-	public var cornerRadiusPreset: MaterialRadius = .None {
+	public var cornerRadiusPreset: MaterialRadius = .none {
 		didSet {
 			if let v: MaterialRadius = cornerRadiusPreset {
 				cornerRadius = MaterialRadiusToValue(v)
@@ -229,7 +229,7 @@ public class MaterialTableViewCell : UITableViewCell {
 	}
 	
 	/// A preset property to set the borderWidth.
-	public var borderWidthPreset: MaterialBorder = .None {
+	public var borderWidthPreset: MaterialBorder = .none {
 		didSet {
 			borderWidth = MaterialBorderToValue(borderWidthPreset)
 		}
@@ -248,10 +248,10 @@ public class MaterialTableViewCell : UITableViewCell {
 	/// A property that accesses the layer.borderColor property.
 	@IBInspectable public var borderColor: UIColor? {
 		get {
-			return nil == layer.borderColor ? nil : UIColor(CGColor: layer.borderColor!)
+			return nil == layer.borderColor ? nil : UIColor(cgColor: layer.borderColor!)
 		}
 		set(value) {
-			layer.borderColor = value?.CGColor
+			layer.borderColor = value?.cgColor
 		}
 	}
 	
@@ -294,8 +294,8 @@ public class MaterialTableViewCell : UITableViewCell {
 		prepareView()
 	}
 	
-	public override func layoutSublayersOfLayer(layer: CALayer) {
-		super.layoutSublayersOfLayer(layer)
+	public override func layoutSublayers(of layer: CALayer) {
+		super.layoutSublayers(of: layer)
 		if self.layer == layer {
 			layoutVisualLayer()
 		}
@@ -311,17 +311,17 @@ public class MaterialTableViewCell : UITableViewCell {
 	view's backing layer.
 	- Parameter animation: A CAAnimation instance.
 	*/
-	public func animate(animation: CAAnimation) {
+	public func animate(_ animation: CAAnimation) {
 		animation.delegate = self
 		if let a: CABasicAnimation = animation as? CABasicAnimation {
-			a.fromValue = (nil == layer.presentationLayer() ? layer : layer.presentationLayer() as! CALayer).valueForKeyPath(a.keyPath!)
+			a.fromValue = (nil == layer.presentation() ? layer : layer.presentation()!).value(forKeyPath: a.keyPath!)
 		}
 		if let a: CAPropertyAnimation = animation as? CAPropertyAnimation {
-			layer.addAnimation(a, forKey: a.keyPath!)
+			layer.add(a, forKey: a.keyPath!)
 		} else if let a: CAAnimationGroup = animation as? CAAnimationGroup {
-			layer.addAnimation(a, forKey: nil)
+			layer.add(a, forKey: nil)
 		} else if let a: CATransition = animation as? CATransition {
-			layer.addAnimation(a, forKey: kCATransition)
+			layer.add(a, forKey: kCATransition)
 		}
 	}
 	
@@ -330,7 +330,7 @@ public class MaterialTableViewCell : UITableViewCell {
 	running an animation.
 	- Parameter anim: The currently running CAAnimation instance.
 	*/
-	public override func animationDidStart(anim: CAAnimation) {
+	public override func animationDidStart(_ anim: CAAnimation) {
 		(delegate as? MaterialAnimationDelegate)?.materialAnimationDidStart?(anim)
 	}
 	
@@ -342,13 +342,13 @@ public class MaterialTableViewCell : UITableViewCell {
 	because it was completed or interrupted. True if completed, false
 	if interrupted.
 	*/
-	public override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+	public override func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
 		if let a: CAPropertyAnimation = anim as? CAPropertyAnimation {
 			if let b: CABasicAnimation = a as? CABasicAnimation {
 				if let v: AnyObject = b.toValue {
 					if let k: String = b.keyPath {
 						layer.setValue(v, forKeyPath: k)
-						layer.removeAnimationForKey(k)
+						layer.removeAnimation(forKey: k)
 					}
 				}
 			}
@@ -365,8 +365,8 @@ public class MaterialTableViewCell : UITableViewCell {
 	- Parameter point: A Optional point to pulse from, otherwise pulses
 	from the center.
 	*/
-	public func pulse(point: CGPoint? = nil) {
-		let p: CGPoint = nil == point ? CGPointMake(CGFloat(width / 2), CGFloat(height / 2)) : point!
+	public func pulse(_ point: CGPoint? = nil) {
+		let p: CGPoint = nil == point ? CGPoint(x: CGFloat(width / 2), y: CGFloat(height / 2)) : point!
 		MaterialAnimation.pulseExpandAnimation(layer, visualLayer: visualLayer, pulseColor: pulseColor, pulseOpacity: pulseOpacity, point: p, width: width, height: height, pulseLayers: &pulseLayers, pulseAnimation: pulseAnimation)
 		MaterialAnimation.delay(0.35) { [weak self] in
 			if let s: MaterialTableViewCell = self {
@@ -381,9 +381,9 @@ public class MaterialTableViewCell : UITableViewCell {
 	- Parameter touches: A set of UITouch objects.
 	- Parameter event: A UIEvent object.
 	*/
-	public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-		super.touchesBegan(touches, withEvent: event)
-		MaterialAnimation.pulseExpandAnimation(layer, visualLayer: visualLayer, pulseColor: pulseColor, pulseOpacity: pulseOpacity, point: layer.convertPoint(touches.first!.locationInView(self), fromLayer: layer), width: width, height: height, pulseLayers: &pulseLayers, pulseAnimation: pulseAnimation)
+	public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesBegan(touches, with: event)
+		MaterialAnimation.pulseExpandAnimation(layer, visualLayer: visualLayer, pulseColor: pulseColor, pulseOpacity: pulseOpacity, point: layer.convert(touches.first!.location(in: self), from: layer), width: width, height: height, pulseLayers: &pulseLayers, pulseAnimation: pulseAnimation)
 	}
 	
 	/**
@@ -392,8 +392,8 @@ public class MaterialTableViewCell : UITableViewCell {
 	- Parameter touches: A set of UITouch objects.
 	- Parameter event: A UIEvent object.
 	*/
-	public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-		super.touchesEnded(touches, withEvent: event)
+	public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesEnded(touches, with: event)
 		MaterialAnimation.pulseContractAnimation(layer, visualLayer: visualLayer, pulseColor: pulseColor, pulseLayers: &pulseLayers, pulseAnimation: pulseAnimation)
 	}
 	
@@ -403,8 +403,8 @@ public class MaterialTableViewCell : UITableViewCell {
 	- Parameter touches: A set of UITouch objects.
 	- Parameter event: A UIEvent object.
 	*/
-	public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-		super.touchesCancelled(touches, withEvent: event)
+	public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+		super.touchesCancelled(touches, with: event)
 		MaterialAnimation.pulseContractAnimation(layer, visualLayer: visualLayer, pulseColor: pulseColor, pulseLayers: &pulseLayers, pulseAnimation: pulseAnimation)
 	}
 	
@@ -416,12 +416,12 @@ public class MaterialTableViewCell : UITableViewCell {
 	when subclassing.
 	*/
 	public func prepareView() {
-		selectionStyle = .None
+		selectionStyle = .none
 		separatorInset = UIEdgeInsetsZero
 		contentScaleFactor = MaterialDevice.scale
-		imageView?.userInteractionEnabled = false
-		textLabel?.userInteractionEnabled = false
-		detailTextLabel?.userInteractionEnabled = false
+		imageView?.isUserInteractionEnabled = false
+		textLabel?.isUserInteractionEnabled = false
+		detailTextLabel?.isUserInteractionEnabled = false
 		prepareVisualLayer()
 	}
 	
@@ -441,12 +441,12 @@ public class MaterialTableViewCell : UITableViewCell {
 	/// Sets the shadow path.
 	internal func layoutShadowPath() {
 		if shadowPathAutoSizeEnabled {
-			if .None == depth {
+			if .none == depth {
 				shadowPath = nil
 			} else if nil == shadowPath {
-				shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).CGPath
+				shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
 			} else {
-				animate(MaterialAnimation.shadowPath(UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).CGPath, duration: 0))
+				animate(MaterialAnimation.shadowPath(UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath, duration: 0))
 			}
 		}
 	}

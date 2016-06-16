@@ -37,9 +37,9 @@ class AppNavigationController: NavigationController {
 		prepareNavigationBar()
 	}
 	
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		navigationBar.statusBarStyle = .LightContent
+		navigationBar.statusBarStyle = .lightContent
 	}
 		
 	/// Prepares the navigationBar

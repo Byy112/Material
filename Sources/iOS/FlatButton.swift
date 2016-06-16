@@ -40,7 +40,7 @@ public class FlatButton : MaterialButton {
 	*/
 	public override func prepareView() {
 		super.prepareView()
-		cornerRadiusPreset = .Radius1
-		contentEdgeInsetsPreset = .WideRectangle3
+		cornerRadiusPreset = .radius1
+		contentEdgeInsetsPreset = .wideRectangle3
 	}
 }

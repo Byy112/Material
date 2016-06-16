@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let menuController: AppMenuController = AppMenuController(rootViewController: navigationController)
 		let navigationDrawerController: AppNavigationDrawerController = AppNavigationDrawerController(rootViewController: menuController, leftViewController: AppLeftViewController())
 		
-		window = UIWindow(frame: UIScreen.mainScreen().bounds)
+		window = UIWindow(frame: UIScreen.main().bounds)
 		window!.rootViewController = navigationDrawerController
 		window!.makeKeyAndVisible()
 		return true

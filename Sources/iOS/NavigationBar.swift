@@ -32,9 +32,9 @@ import UIKit
 
 /// NavigationBar styles.
 public enum NavigationBarStyle {
-	case Tiny
-	case Default
-	case Medium
+	case tiny
+	case `default`
+	case medium
 }
 
 public extension UINavigationBar {
@@ -52,7 +52,7 @@ public extension UINavigationBar {
 @IBDesignable
 public class NavigationBar : UINavigationBar {
 	/// NavigationBarStyle value.
-	public var navigationBarStyle: NavigationBarStyle = .Default
+	public var navigationBarStyle: NavigationBarStyle = .default
 	
 	internal var animating: Bool = false
 	
@@ -62,7 +62,7 @@ public class NavigationBar : UINavigationBar {
 	}
 	
 	/// A preset wrapper around contentInset.
-	public var contentInsetPreset: MaterialEdgeInset = .None {
+	public var contentInsetPreset: MaterialEdgeInset = .none {
 		didSet {
 			contentInset = MaterialEdgeInsetToValue(contentInsetPreset)
 		}
@@ -76,7 +76,7 @@ public class NavigationBar : UINavigationBar {
 	}
 	
 	/// A preset wrapper around spacing.
-	public var spacingPreset: MaterialSpacing = .None {
+	public var spacingPreset: MaterialSpacing = .none {
 		didSet {
 			spacing = MaterialSpacingToValue(spacingPreset)
 		}
@@ -187,7 +187,7 @@ public class NavigationBar : UINavigationBar {
 	/// A property that accesses the backing layer's shadowColor.
 	@IBInspectable public var shadowColor: UIColor? {
 		didSet {
-			layer.shadowColor = shadowColor?.CGColor
+			layer.shadowColor = shadowColor?.cgColor
 		}
 	}
 	
@@ -226,7 +226,7 @@ public class NavigationBar : UINavigationBar {
 	for the backing layer. This is the preferred method of setting depth
 	in order to maintain consitency across UI objects.
 	*/
-	public var depth: MaterialDepth = .None {
+	public var depth: MaterialDepth = .none {
 		didSet {
 			let value: MaterialDepthType = MaterialDepthToValue(depth)
 			shadowOffset = value.offset
@@ -236,7 +236,7 @@ public class NavigationBar : UINavigationBar {
 	}
 	
 	/// A preset property to set the borderWidth.
-	public var borderWidthPreset: MaterialBorder = .None {
+	public var borderWidthPreset: MaterialBorder = .none {
 		didSet {
 			borderWidth = MaterialBorderToValue(borderWidthPreset)
 		}
@@ -255,10 +255,10 @@ public class NavigationBar : UINavigationBar {
 	/// A property that accesses the layer.borderColor property.
 	@IBInspectable public var borderColor: UIColor? {
 		get {
-			return nil == layer.borderColor ? nil : UIColor(CGColor: layer.borderColor!)
+			return nil == layer.borderColor ? nil : UIColor(cgColor: layer.borderColor!)
 		}
 		set(value) {
-			layer.borderColor = value?.CGColor
+			layer.borderColor = value?.cgColor
 		}
 	}
 	
@@ -284,21 +284,21 @@ public class NavigationBar : UINavigationBar {
 	
 	/// A convenience initializer.
 	public convenience init() {
-		self.init(frame: CGRectZero)
+		self.init(frame: CGRect.zero)
 	}
 	
 	public override func intrinsicContentSize() -> CGSize {
 		switch navigationBarStyle {
-		case .Tiny:
-			return CGSizeMake(width ?? MaterialDevice.width, 32)
-		case .Default:
-			return CGSizeMake(width ?? MaterialDevice.width, 44)
-		case .Medium:
-			return CGSizeMake(width ?? MaterialDevice.width, 56)
+		case .tiny:
+			return CGSize(width: width ?? MaterialDevice.width, height: 32)
+		case .default:
+			return CGSize(width: width ?? MaterialDevice.width, height: 44)
+		case .medium:
+			return CGSize(width: width ?? MaterialDevice.width, height: 56)
 		}
 	}
 	
-	public override func sizeThatFits(size: CGSize) -> CGSize {
+	public override func sizeThatFits(_ size: CGSize) -> CGSize {
 		return intrinsicContentSize()
 	}
 	
@@ -313,8 +313,8 @@ public class NavigationBar : UINavigationBar {
 		}
 	}
 	
-	public override func pushNavigationItem(item: UINavigationItem, animated: Bool) {
-		super.pushNavigationItem(item, animated: animated)
+	public override func pushItem(_ item: UINavigationItem, animated: Bool) {
+		super.pushItem(item, animated: animated)
 		layoutNavigationItem(item)
 	}
 	
@@ -322,7 +322,7 @@ public class NavigationBar : UINavigationBar {
 	Lays out the UINavigationItem.
 	- Parameter item: A UINavigationItem to layout.
 	*/
-	internal func layoutNavigationItem(item: UINavigationItem) {
+	internal func layoutNavigationItem(_ item: UINavigationItem) {
 		if willRenderView {
 			prepareItem(item)
 			
@@ -425,15 +425,15 @@ public class NavigationBar : UINavigationBar {
 	when subclassing.
 	*/
 	public func prepareView() {
-		translucent = false
-		depth = .Depth1
-		spacingPreset = .Spacing1
-		contentInsetPreset = .Square1
+		isTranslucent = false
+		depth = .depth1
+		spacingPreset = .spacing1
+		contentInsetPreset = .square1
 		contentScaleFactor = MaterialDevice.scale
 		backButtonImage = MaterialIcon.cm.arrowBack
-		let image: UIImage? = UIImage.imageWithColor(MaterialColor.clear, size: CGSizeMake(1, 1))
+		let image: UIImage? = UIImage.imageWithColor(MaterialColor.clear, size: CGSize(width: 1, height: 1))
 		shadowImage = image
-		setBackgroundImage(image, forBarMetrics: .Default)
+		setBackgroundImage(image, for: .default)
 		backgroundColor = MaterialColor.white
 	}
 	
@@ -441,7 +441,7 @@ public class NavigationBar : UINavigationBar {
 	Prepare the item by setting the title property to equal an empty string.
 	- Parameter item: A UINavigationItem to layout.
 	*/
-	private func prepareItem(item: UINavigationItem) {
+	private func prepareItem(_ item: UINavigationItem) {
 		item.hidesBackButton = false
 		item.setHidesBackButton(true, animated: false)
 	}
@@ -451,9 +451,9 @@ public class NavigationBar : UINavigationBar {
 	- Parameter item: A UINavigationItem to layout.
 	- Returns: A UIView, which is the item.titleView.
 	*/
-	private func prepareTitleView(item: UINavigationItem) -> UIView {
+	private func prepareTitleView(_ item: UINavigationItem) -> UIView {
 		if nil == item.titleView {
-			item.titleView = UIView(frame: CGRectZero)
+			item.titleView = UIView(frame: CGRect.zero)
 		}
 		return item.titleView!
 	}
@@ -463,11 +463,11 @@ public class NavigationBar : UINavigationBar {
 	- Parameter item: A UINavigationItem to layout.
 	- Returns: A UIView, which is the item.contentView.
 	*/
-	private func prepareContentView(item: UINavigationItem) -> UIView {
+	private func prepareContentView(_ item: UINavigationItem) -> UIView {
 		if nil == item.contentView {
-			item.contentView = UIView(frame: CGRectZero)
+			item.contentView = UIView(frame: CGRect.zero)
 		}
-		item.contentView!.grid.axis.direction = .Vertical
+		item.contentView!.grid.axis.direction = .vertical
 		return item.contentView!
 	}
 }

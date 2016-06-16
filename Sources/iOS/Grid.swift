@@ -31,9 +31,9 @@
 import UIKit
 
 public enum GridAxisDirection {
-	case None
-	case Horizontal
-	case Vertical
+	case none
+	case horizontal
+	case vertical
 }
 
 public class GridAxis {
@@ -44,7 +44,7 @@ public class GridAxis {
 	public var inherited: Bool = false
 	
 	/// The direction the grid layouts its views out.
-	public var direction: GridAxisDirection = .Horizontal
+	public var direction: GridAxisDirection = .horizontal
 	
 	/// The rows size.
 	public var rows: Int {
@@ -126,35 +126,35 @@ public class Grid {
 	public private(set) var axis: GridAxis!
 	
 	/// Preset inset value for grid.
-	public var layoutInsetPreset: MaterialEdgeInset = .None {
+	public var layoutInsetPreset: MaterialEdgeInset = .none {
 		didSet {
 			layoutInset = MaterialEdgeInsetToValue(contentInsetPreset)
 		}
 	}
 	
 	/// Insets value for grid.
-	public var layoutInset: UIEdgeInsets = MaterialEdgeInsetToValue(.None) {
+	public var layoutInset: UIEdgeInsets = MaterialEdgeInsetToValue(.none) {
 		didSet {
 			reloadLayout()
 		}
 	}
 	
 	/// Preset inset value for grid.
-	public var contentInsetPreset: MaterialEdgeInset = .None {
+	public var contentInsetPreset: MaterialEdgeInset = .none {
 		didSet {
 			contentInset = MaterialEdgeInsetToValue(contentInsetPreset)
 		}
 	}
 	
 	/// Insets value for grid.
-	public var contentInset: UIEdgeInsets = MaterialEdgeInsetToValue(.None) {
+	public var contentInset: UIEdgeInsets = MaterialEdgeInsetToValue(.none) {
 		didSet {
 			reloadLayout()
 		}
 	}
 	
 	/// A preset wrapper around spacing.
-	public var spacingPreset: MaterialSpacing = .None {
+	public var spacingPreset: MaterialSpacing = .none {
 		didSet {
 			spacing = MaterialSpacingToValue(spacingPreset)
 		}
@@ -199,25 +199,25 @@ public class Grid {
 				if let sv: UIView = view.superview {
 					sv.layoutIfNeeded()
 					switch axis.direction {
-					case .Horizontal:
+					case .horizontal:
 						let w: CGFloat = (sv.bounds.width - contentInset.left - contentInset.right - layoutInset.left - layoutInset.right + spacing) / CGFloat(gc)
 						let c: Int = view.grid.columns
 						let co: Int = view.grid.offset.columns
 						let vh: CGFloat = sv.bounds.height - contentInset.top - contentInset.bottom - layoutInset.top - layoutInset.bottom
 						let vl: CGFloat = CGFloat(i + n + co) * w + contentInset.left + layoutInset.left
 						let vw: CGFloat = w * CGFloat(c) - spacing
-						view.frame = CGRectMake(vl, contentInset.top + layoutInset.top, vw, vh)
+						view.frame = CGRect(x: vl, y: contentInset.top + layoutInset.top, width: vw, height: vh)
 						n += c + co - 1
-					case .Vertical:
+					case .vertical:
 						let h: CGFloat = (sv.bounds.height - contentInset.top - contentInset.bottom - layoutInset.top - layoutInset.bottom + spacing) / CGFloat(gr)
 						let r: Int = view.grid.rows
 						let ro: Int = view.grid.offset.rows
 						let vw: CGFloat = sv.bounds.width - contentInset.left - contentInset.right - layoutInset.left - layoutInset.right
 						let vt: CGFloat = CGFloat(i + n + ro) * h + contentInset.top + layoutInset.top
 						let vh: CGFloat = h * CGFloat(r) - spacing
-						view.frame = CGRectMake(contentInset.left + layoutInset.left, vt, vw, vh)
+						view.frame = CGRect(x: contentInset.left + layoutInset.left, y: vt, width: vw, height: vh)
 						n += r + ro - 1
-					case .None:
+					case .none:
 						let w: CGFloat = (sv.bounds.width - contentInset.left - contentInset.right - layoutInset.left - layoutInset.right + spacing) / CGFloat(gc)
 						let c: Int = view.grid.columns
 						let co: Int = view.grid.offset.columns
@@ -228,7 +228,7 @@ public class Grid {
 						let vl: CGFloat = CGFloat(co) * w + contentInset.left + layoutInset.left
 						let vh: CGFloat = h * CGFloat(r) - spacing
 						let vw: CGFloat = w * CGFloat(c) - spacing
-						view.frame = CGRectMake(vl, vt, vw, vh)
+						view.frame = CGRect(x: vl, y: vt, width: vw, height: vh)
 					}
 				}
 			}

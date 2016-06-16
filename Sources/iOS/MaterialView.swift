@@ -53,7 +53,7 @@ public class MaterialView : UIView {
 	*/
 	@IBInspectable public var image: UIImage? {
 		didSet {
-			visualLayer.contents = image?.CGImage
+			visualLayer.contents = image?.cgImage
 		}
 	}
 	
@@ -134,7 +134,7 @@ public class MaterialView : UIView {
 	/// A property that accesses the backing layer's backgroundColor.
 	@IBInspectable public override var backgroundColor: UIColor? {
 		didSet {
-			layer.backgroundColor = backgroundColor?.CGColor
+			layer.backgroundColor = backgroundColor?.cgColor
 		}
 	}
 	
@@ -170,7 +170,7 @@ public class MaterialView : UIView {
 		}
 		set(value) {
 			layer.frame.size.width = value
-			if .None != shape {
+			if .none != shape {
 				layer.frame.size.height = value
 			}
 		}
@@ -188,7 +188,7 @@ public class MaterialView : UIView {
 		}
 		set(value) {
 			layer.frame.size.height = value
-			if .None != shape {
+			if .none != shape {
 				layer.frame.size.width = value
 			}
 		}
@@ -197,7 +197,7 @@ public class MaterialView : UIView {
 	/// A property that accesses the backing layer's shadowColor.
 	@IBInspectable public var shadowColor: UIColor? {
 		didSet {
-			layer.shadowColor = shadowColor?.CGColor
+			layer.shadowColor = shadowColor?.cgColor
 		}
 	}
 	
@@ -255,7 +255,7 @@ public class MaterialView : UIView {
 	for the backing layer. This is the preferred method of setting depth 
 	in order to maintain consitency across UI objects.
 	*/
-	public var depth: MaterialDepth = .None {
+	public var depth: MaterialDepth = .none {
 		didSet {
 			let value: MaterialDepthType = MaterialDepthToValue(depth)
 			shadowOffset = value.offset
@@ -270,7 +270,7 @@ public class MaterialView : UIView {
 	property has a value of .Circle when the cornerRadius is set, it will 
 	become .None, as it no longer maintains its circle shape.
 	*/
-	public var cornerRadiusPreset: MaterialRadius = .None {
+	public var cornerRadiusPreset: MaterialRadius = .none {
 		didSet {
 			if let v: MaterialRadius = cornerRadiusPreset {
 				cornerRadius = MaterialRadiusToValue(v)
@@ -286,8 +286,8 @@ public class MaterialView : UIView {
 		set(value) {
 			layer.cornerRadius = value
 			layoutShadowPath()
-			if .Circle == shape {
-				shape = .None
+			if .circle == shape {
+				shape = .none
 			}
 		}
 	}
@@ -297,9 +297,9 @@ public class MaterialView : UIView {
 	width or height property is set, the other will be automatically adjusted 
 	to maintain the shape of the object.
 	*/
-	public var shape: MaterialShape = .None {
+	public var shape: MaterialShape = .none {
 		didSet {
-			if .None != shape {
+			if .none != shape {
 				if width < height {
 					frame.size.width = height
 				} else {
@@ -311,7 +311,7 @@ public class MaterialView : UIView {
 	}
 	
 	/// A preset property to set the borderWidth.
-	public var borderWidthPreset: MaterialBorder = .None {
+	public var borderWidthPreset: MaterialBorder = .none {
 		didSet {
 			borderWidth = MaterialBorderToValue(borderWidthPreset)
 		}
@@ -330,10 +330,10 @@ public class MaterialView : UIView {
 	/// A property that accesses the layer.borderColor property.
 	@IBInspectable public var borderColor: UIColor? {
 		get {
-			return nil == layer.borderColor ? nil : UIColor(CGColor: layer.borderColor!)
+			return nil == layer.borderColor ? nil : UIColor(cgColor: layer.borderColor!)
 		}
 		set(value) {
-			layer.borderColor = value?.CGColor
+			layer.borderColor = value?.cgColor
 		}
 	}
 	
@@ -362,7 +362,7 @@ public class MaterialView : UIView {
 	- Parameter aDecoder: A NSCoder instance.
 	*/
 	public required init?(coder aDecoder: NSCoder) {
-		contentsGravityPreset = .ResizeAspectFill
+		contentsGravityPreset = .resizeAspectFill
 		super.init(coder: aDecoder)
 		prepareView()
 	}
@@ -374,18 +374,18 @@ public class MaterialView : UIView {
 	- Parameter frame: A CGRect instance.
 	*/
 	public override init(frame: CGRect) {
-		contentsGravityPreset = .ResizeAspectFill
+		contentsGravityPreset = .resizeAspectFill
 		super.init(frame: frame)
 		prepareView()
 	}
 	
 	/// A convenience initializer.
 	public convenience init() {
-		self.init(frame: CGRectZero)
+		self.init(frame: CGRect.zero)
 	}
 	
-	public override func layoutSublayersOfLayer(layer: CALayer) {
-		super.layoutSublayersOfLayer(layer)
+	public override func layoutSublayers(of layer: CALayer) {
+		super.layoutSublayers(of: layer)
 		if self.layer == layer {
 			layoutShape()
 			layoutVisualLayer()
@@ -402,17 +402,17 @@ public class MaterialView : UIView {
 	view's backing layer.
 	- Parameter animation: A CAAnimation instance.
 	*/
-	public func animate(animation: CAAnimation) {
+	public func animate(_ animation: CAAnimation) {
 		animation.delegate = self
 		if let a: CABasicAnimation = animation as? CABasicAnimation {
-			a.fromValue = (nil == layer.presentationLayer() ? layer : layer.presentationLayer() as! CALayer).valueForKeyPath(a.keyPath!)
+			a.fromValue = (nil == layer.presentation() ? layer : layer.presentation()!).value(forKeyPath: a.keyPath!)
 		}
 		if let a: CAPropertyAnimation = animation as? CAPropertyAnimation {
-			layer.addAnimation(a, forKey: a.keyPath!)
+			layer.add(a, forKey: a.keyPath!)
 		} else if let a: CAAnimationGroup = animation as? CAAnimationGroup {
-			layer.addAnimation(a, forKey: nil)
+			layer.add(a, forKey: nil)
 		} else if let a: CATransition = animation as? CATransition {
-			layer.addAnimation(a, forKey: kCATransition)
+			layer.add(a, forKey: kCATransition)
 		}
 	}
 	
@@ -421,7 +421,7 @@ public class MaterialView : UIView {
 	running an animation.
 	- Parameter anim: The currently running CAAnimation instance.
 	*/
-	public override func animationDidStart(anim: CAAnimation) {
+	public override func animationDidStart(_ anim: CAAnimation) {
 		(delegate as? MaterialAnimationDelegate)?.materialAnimationDidStart?(anim)
 	}
 	
@@ -433,13 +433,13 @@ public class MaterialView : UIView {
 	because it was completed or interrupted. True if completed, false 
 	if interrupted.
 	*/
-	public override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+	public override func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
 		if let a: CAPropertyAnimation = anim as? CAPropertyAnimation {
 			if let b: CABasicAnimation = a as? CABasicAnimation {
 				if let v: AnyObject = b.toValue {
 					if let k: String = b.keyPath {
 						layer.setValue(v, forKeyPath: k)
-						layer.removeAnimationForKey(k)
+						layer.removeAnimation(forKey: k)
 					}
 				}
 			}
@@ -479,7 +479,7 @@ public class MaterialView : UIView {
 	
 	/// Manages the layout for the shape of the view instance.
 	internal func layoutShape() {
-		if .Circle == shape {
+		if .circle == shape {
 			let w: CGFloat = (width / 2)
 			if w != cornerRadius {
 				cornerRadius = w
@@ -490,12 +490,12 @@ public class MaterialView : UIView {
 	/// Sets the shadow path.
 	internal func layoutShadowPath() {
 		if shadowPathAutoSizeEnabled {
-			if .None == depth {
+			if .none == depth {
 				shadowPath = nil
 			} else if nil == shadowPath {
-				shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).CGPath
+				shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
 			} else {
-				animate(MaterialAnimation.shadowPath(UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).CGPath, duration: 0))
+				animate(MaterialAnimation.shadowPath(UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath, duration: 0))
 			}
 		}
 	}

@@ -57,7 +57,7 @@ public class ControlView : MaterialView {
 	}
 	
 	/// A preset wrapper around spacing.
-	public var spacingPreset: MaterialSpacing = .None {
+	public var spacingPreset: MaterialSpacing = .none {
 		didSet {
 			spacing = MaterialSpacingToValue(spacingPreset)
 		}
@@ -142,7 +142,7 @@ public class ControlView : MaterialView {
 	
 	/// Basic initializer.
 	public init() {
-		super.init(frame: CGRectZero)
+		super.init(frame: CGRect.zero)
 		frame.size = intrinsicContentSize()
 		prepareView()
 	}
@@ -153,7 +153,7 @@ public class ControlView : MaterialView {
 	- Parameter rightControls: An Array of UIControls that go on the right side.
 	*/
 	public init(leftControls: Array<UIControl>? = nil, rightControls: Array<UIControl>? = nil) {
-		super.init(frame: CGRectZero)
+		super.init(frame: CGRect.zero)
 		frame.size = intrinsicContentSize()
 		prepareView()
 		prepareProperties(leftControls, rightControls: rightControls)
@@ -218,7 +218,7 @@ public class ControlView : MaterialView {
 	}
 	
 	public override func intrinsicContentSize() -> CGSize {
-		return CGSizeMake(width, 44)
+		return CGSize(width: width, height: 44)
 	}
 	
 	/**
@@ -230,9 +230,9 @@ public class ControlView : MaterialView {
 	*/
 	public override func prepareView() {
 		super.prepareView()
-		spacingPreset = .Spacing1
-		contentInsetPreset = .Square1
-		autoresizingMask = .FlexibleWidth
+		spacingPreset = .spacing1
+		contentInsetPreset = .square1
+		autoresizingMask = .flexibleWidth
 		shadowPathAutoSizeEnabled = false
 		prepareContentView()
 	}
@@ -242,7 +242,7 @@ public class ControlView : MaterialView {
 	- Parameter leftControls: An Array of UIControls that go on the left side.
 	- Parameter rightControls: An Array of UIControls that go on the right side.
 	*/
-	internal func prepareProperties(leftControls: Array<UIControl>?, rightControls: Array<UIControl>?) {
+	internal func prepareProperties(_ leftControls: Array<UIControl>?, rightControls: Array<UIControl>?) {
 		self.leftControls = leftControls
 		self.rightControls = rightControls
 	}

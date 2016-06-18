@@ -126,37 +126,37 @@ public class Grid {
 	public private(set) var axis: GridAxis!
 	
 	/// Preset inset value for grid.
-	public var layoutInsetPreset: MaterialEdgeInset = .none {
+	public var layoutInsetPreset: EdgeInsets = .none {
 		didSet {
-			layoutInset = MaterialEdgeInsetToValue(contentInsetPreset)
+			layoutInset = EdgeInsetsToValue(contentInsetPreset)
 		}
 	}
 	
 	/// Insets value for grid.
-	public var layoutInset: UIEdgeInsets = MaterialEdgeInsetToValue(.none) {
+	public var layoutInset: UIEdgeInsets = EdgeInsetsToValue(.none) {
 		didSet {
 			reloadLayout()
 		}
 	}
 	
 	/// Preset inset value for grid.
-	public var contentInsetPreset: MaterialEdgeInset = .none {
+	public var contentInsetPreset: EdgeInsets = .none {
 		didSet {
-			contentInset = MaterialEdgeInsetToValue(contentInsetPreset)
+			contentInset = EdgeInsetsToValue(contentInsetPreset)
 		}
 	}
 	
 	/// Insets value for grid.
-	public var contentInset: UIEdgeInsets = MaterialEdgeInsetToValue(.none) {
+	public var contentInset: UIEdgeInsets = UIEdgeInsets.zero {
 		didSet {
 			reloadLayout()
 		}
 	}
 	
 	/// A preset wrapper around spacing.
-	public var spacingPreset: MaterialSpacing = .none {
+	public var spacePreset: Space = .none {
 		didSet {
-			spacing = MaterialSpacingToValue(spacingPreset)
+			spacing = SpaceToValue(spacePreset)
 		}
 	}
 	
